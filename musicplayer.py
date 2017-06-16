@@ -1,11 +1,14 @@
+import sys
 import pygame
 import RPi.GPIO as GPIO
 import random
 import time
 
 
-directory = "/home/pi/Downloads/"
+#directory = "/home/pi/Downloads/"
+goRandom = False
 song = "carelesswhisper.mp3"
+songs = ['carelesswhisper.mp3', 'childrenofthecorn.mp3', 'manonthesilvermountain.mp3', 'ringaroundtherosie.mp3', 'kungfufighting.mp3', 'spongebob.mp3', 'pokerface.mp3']
 sensorPin = 11
 ledPin = 7
 timeoutMinSec = 30
@@ -18,9 +21,14 @@ def SetUp():
 	GPIO.output(ledPin, 0)
 
 	pygame.mixer.init();
-	pygame.mixer.music.load(directory + song)
-	
+		
 def HitIt():
+	if goRandom:
+		songIndex = random.randint(0, len(songs) - 1)
+		song =  songs[songIndex]
+		
+	print "playing: " + song
+	pygame.mixer.music.load(song)
 	pygame.mixer.music.play()
 
 	while pygame.mixer.music.get_busy() == True:
@@ -36,6 +44,8 @@ def WaitInHiding():
 			GPIO.output(ledPin, 0)
 
 if __name__ == "__main__":
+	if sys.argv[1]:
+		goRandom = True
 	try:
 		SetUp()
 		WaitInHiding()
