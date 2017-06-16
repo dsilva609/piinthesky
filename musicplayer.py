@@ -10,10 +10,10 @@ def SetUp():
 	GPIO.output(7,0)
 
 	pygame.mixer.init();
-	pygame.mixer.music.load("/home/pi/Downloads/" %s ".mp3")
+	pygame.mixer.music.load("/home/pi/Downloads/" + song + ".mp3")
 	
 def HitIt():
-		pygame.mixer.music.play()
+	pygame.mixer.music.play()
 
 	while pygame.mixer.music.get_busy() == True:
 		continue
@@ -28,6 +28,7 @@ def WaitInHiding():
 
 if __name__ == "__main__":
 	try:
+		SetUp()
 		WaitInHiding()
 	except KeyboardInterrupt:
 		GPIO.cleanup()
