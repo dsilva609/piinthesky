@@ -1,10 +1,15 @@
-import pygame;
+import pygame
 import RPi.GPIO as GPIO
+import random
+import time
+
 
 directory = "/home/pi/Downloads/"
 song = "carelesswhisper.mp3"
 sensorPin = 11
 ledPin = 7
+timeoutMinSec = 30
+timeoutMaxSec = 60
 
 def SetUp():
 	GPIO.setmode(GPIO.BOARD)
@@ -26,6 +31,7 @@ def WaitInHiding():
 		if (GPIO.input(sensorPin) == 0):
 			GPIO.output(ledPin, 1)
 			HitIt()
+			time.sleep(random.randint(timeoutMinSec, timeoutMaxSec))
 		else:
 			GPIO.output(ledPin, 0)
 
