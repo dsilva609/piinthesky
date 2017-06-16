@@ -1,32 +1,33 @@
 import pygame;
+import RPi.GPIO as GPIO
 
-def PlayBall():
+song = "carelesswhisper"
+
+def SetUp():
+	GPIO.setmode(GPIO.BOARD)
+	GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(7, GPIO.OUT)
+	GPIO.output(7,0)
+
 	pygame.mixer.init();
-	pygame.mixer.music.load("/home/pi/Downloads/carelesswhisper.mp3")
-	pygame.mixer.music.play()
+	pygame.mixer.music.load("/home/pi/Downloads/" %s ".mp3")
+	
+def HitIt():
+		pygame.mixer.music.play()
 
 	while pygame.mixer.music.get_busy() == True:
 		continue
-
-# PlayBall();
-# PlayBall();
-
-import RPi.GPIO as GPIO
-
-GPIO.setmode(GPIO.BOARD)
-
-GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-GPIO.setup(7, GPIO.OUT)
-GPIO.output(7,0)
-
-try:
+		
+def WaitInHiding():
 	while True:
 		if (GPIO.input(11) == 0):
 			GPIO.output(7,1)
-			print "baseball"
-			PlayBall();
+			HitIt()
 		else:
 			GPIO.output(7,0)
-except KeyboardInterrupt:
-	GPIO.cleanup()
+
+if __name__ == "__main__":
+	try:
+		WaitInHiding()
+	except KeyboardInterrupt:
+		GPIO.cleanup()
