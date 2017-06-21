@@ -13,12 +13,14 @@ timeoutMinSec = 30
 timeoutMaxSec = 60
 
 def SetUp():
+	GPIO.setwarnings(0)
 	GPIO.setmode(GPIO.BOARD)
-	GPIO.setup(sensorPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(sensorPin, GPIO.IN)#, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.setup(ledPin, GPIO.OUT)
 	GPIO.output(ledPin, 0)
 
 	pygame.mixer.init();
+	time.sleep(20)
 
 def HitIt():
 	if goRandom:
@@ -35,12 +37,15 @@ def HitIt():
 		
 def WaitInHiding():
 	while True:
-		if (GPIO.input(sensorPin) == 0):
+		if (GPIO.input(sensorPin) == 1):
 			GPIO.output(ledPin, 1)
+			print "active"				
 			HitIt()
-			time.sleep(random.randint(timeoutMinSec, timeoutMaxSec))
+			
+			#time.sleep(random.randint(timeoutMinSec, timeoutMaxSec))
 		else:
 			GPIO.output(ledPin, 0)
+			print "off"
 
 if __name__ == "__main__":
 	if sys.argv[1:]:
