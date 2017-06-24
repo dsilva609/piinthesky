@@ -1,10 +1,24 @@
 from time import sleep
-from Adafruit_CharLCD import Adafruit_CharLCD
+import Adafruit_CharLCD as LCD
 
-lcd = Adafruit_CharLCD(rs=12,en=16,d4=29,d5=31,d6=33,d7=35,cols=16,lines=2)
+rs = 26
+en = 19
+d4 = 13
+d5 = 6
+d6 = 5
+d7 = 20
+cols = 16
+lines = 2
+
+
+lcd = LCD.Adafruit_CharLCD(rs,en,d4,d5,d6,d7,cols,lines)
 
 lcd.clear()
-print "test"
-lcd.message('HeavyMetal\n Friday')
-print "done"
-sleep(10)
+
+lcd.message('man on the\n silver mountain')
+
+
+
+
+
+sleep(3)
