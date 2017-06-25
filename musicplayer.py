@@ -9,7 +9,7 @@ import sqlite3
 goRandom = False
 
 song = "carelesswhisper.mp3"
-songs = [] #['carelesswhisper.mp3', 'childrenofthecorn.mp3', 'manonthesilvermountain.mp3', 'ringaroundtherosie.mp3', 'kungfufighting.mp3', 'spongebob.mp3', 'pokerface.mp3']
+songs = [] 
 sensorPin = 17
 ledPin = 4
 
@@ -38,9 +38,6 @@ def SetUp():
 	GPIO.output(ledPin, 0)
 
 	pygame.mixer.init();
-	
-	CreateDatabase()
-	LoadSongs()
 
 	for x in range(5,0, -1):
 		lcd.clear()
@@ -59,14 +56,13 @@ def SetUp():
 	lcd.clear()
 
 def CreateDatabase():
-		c.execute('CREATE TABLE IF NOT EXISTS song(name TEXT)')
+	c.execute('CREATE TABLE IF NOT EXISTS song(name TEXT)')
 	
 def LoadSongs():
 	c.execute('SELECT * FROM song')
-	songs = c.fetchall()
-	
-	for song in songs
-		print song
+	songData = c.fetchall()
+	for song in songData:
+		songs.append(song[0])
 	
 	c.close()
 	conn.close()
@@ -99,8 +95,11 @@ def WaitInHiding():
 if __name__ == "__main__":
 	if sys.argv[1:]:
 		goRandom = True
+		CreateDatabase()
+		LoadSongs()
 	try:
 		SetUp()
 		WaitInHiding()
+		
 	except KeyboardInterrupt:
 		GPIO.cleanup()
